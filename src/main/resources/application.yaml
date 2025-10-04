@@ -1,8 +1,10 @@
 spring:
+  profiles:
+    active: dev
   data:
     mongodb:
       host: localhost
       port: 27017
-      database: blogDB
+      database: mydb
 server:
   port: 8080
