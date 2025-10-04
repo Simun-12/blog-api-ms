@@ -1,4 +1,4 @@
-package org.example.model;
+package blog.api.model;
 
 import lombok.Getter;
 import lombok.Setter;

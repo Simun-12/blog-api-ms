@@ -1,8 +1,8 @@
-package org.example.controller;
+package blog.api.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.example.model.User;
-import org.example.repository.UserRepository;
+import blog.api.model.User;
+import blog.api.repository.UserRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
