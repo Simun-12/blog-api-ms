@@ -1,19 +1,18 @@
 package blog.api.model;
 
+
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "Users")
+@Document(collection="Actions")
 @Getter
 @Setter
-public class User {
+public class Action {
     @Id
+    private int actionId;
+    private int postId;
     private int userId;
-    private String name;
-    private String email;
-    private String password;
-    private String dob;
-    private String bio;
+    private String actionType;
 }
