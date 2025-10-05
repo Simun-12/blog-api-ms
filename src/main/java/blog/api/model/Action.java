@@ -11,8 +11,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Setter
 public class Action {
     @Id
-    private int actionId;
-    private int postId;
-    private int userId;
+    private String actionId;
+    private String postId;
+    private String userId;
     private String actionType;
 }

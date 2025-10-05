@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Setter
 public class User {
     @Id
-    private int userId;
+    private String userId;
     private String name;
     private String email;
     private String password;

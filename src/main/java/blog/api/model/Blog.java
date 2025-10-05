@@ -12,10 +12,10 @@ import java.time.LocalDateTime;
 @Setter
 public class Blog {
     @Id
-    private int postId;
+    private String postId;
     private String Title;
     private String content;
-    private int userId;
+    private String userId;
     private LocalDateTime timestamp;
     private int totalUpvote;
     private int totalDownvote;
