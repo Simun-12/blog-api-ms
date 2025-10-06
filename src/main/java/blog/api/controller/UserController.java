@@ -1,8 +1,9 @@
 package blog.api.controller;
+
+import blog.api.model.User;
+import blog.api.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import blog.api.model.User;
-import blog.api.repository.UserRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,44 +12,34 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
-    private final UserRepository userRepository;
 
-    public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
     @Operation(summary = "Get all users")
-    @GetMapping("/getAlLUsers")
+    @GetMapping("/getAllUsers")
     public List<User> getAllUsers() {
-        return userRepository.findAll();
+        return userService.getAllUsers();
     }
 
-    @Operation(summary = "Create User")
+    @Operation(summary = "Create user")
     @PostMapping("/createUser")
     public User createUser(@RequestBody User user) {
-        return userRepository.save(user);
+        return userService.createUser(user);
     }
 
-    @Operation(summary = "Delete User by Id")
+    @Operation(summary = "Delete user by ID")
     @DeleteMapping("/deleteUser/{userId}")
-    public void deleteUser(@PathVariable String userId){
-        userRepository.deleteById(userId);
+    public void deleteUser(@PathVariable String userId) {
+        userService.deleteUser(userId);
     }
 
     @Operation(summary = "Update user profile")
     @PutMapping("/updateUser/{userId}")
     public User updateUser(@PathVariable String userId, @RequestBody User updatedUser) {
-        return userRepository.findById(userId)
-                .map(user -> {
-                    user.setUserName(updatedUser.getUserName());
-                    user.setFullName(updatedUser.getFullName());
-                    user.setEmail(updatedUser.getEmail());
-                    user.setBio(updatedUser.getBio());
-                    user.setDob(updatedUser.getDob());
-                    return userRepository.save(user);
-                })
-                .orElseThrow(() -> new RuntimeException("User not found with ID " + userId));
+        return userService.updateUser(userId, updatedUser);
     }
 }
-
-

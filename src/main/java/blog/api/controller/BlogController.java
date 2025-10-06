@@ -1,66 +1,56 @@
 package blog.api.controller;
 
-
 import blog.api.model.Blog;
-import blog.api.repository.BlogRepository;
-import blog.api.repository.UserRepository;
+import blog.api.service.BlogService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
-@Tag(name = "Blog API", description = "Operations related to blog" )
+@Tag(name = "Blog API", description = "Operations related to blog")
 @RestController
 @RequestMapping("/api/blogs")
 public class BlogController {
-    private final BlogRepository blogRepository;
+    private final BlogService blogService;
 
-    public BlogController(BlogRepository blogRepository){
-        this.blogRepository = blogRepository;
+    public BlogController(BlogService blogService) {
+        this.blogService = blogService;
     }
 
     @Operation(summary = "Get all blogs")
     @GetMapping("/getAllBlogs")
-    public List<Blog> getAllBlogs(){
-        return blogRepository.findAll();
+    public List<Blog> getAllBlogs() {
+        return blogService.getAllBlogs();
     }
 
     @Operation(summary = "Get all blogs by User ID")
     @GetMapping("/getAllBlogsByUserId/{userId}")
-    public List<Blog> getAllBlogsByUserId(@PathVariable String userId){
-        return blogRepository.findByUserId(userId);
+    public List<Blog> getAllBlogsByUserId(@PathVariable String userId) {
+        return blogService.getAllBlogsByUserId(userId);
     }
 
-    @Operation(summary = "Create Blogs")
+    @Operation(summary = "Create Blog")
     @PostMapping("/createBlog")
-    public Blog createBlog(@RequestBody Blog blog){
-        return blogRepository.save(blog);
+    public Blog createBlog(@RequestBody Blog blog) {
+        return blogService.createBlog(blog);
     }
 
     @Operation(summary = "Delete blog by ID")
     @DeleteMapping("/deleteBlog/{postId}")
-    public void deleteBlog(@PathVariable String postId){
-        blogRepository.deleteById(postId);
+    public void deleteBlog(@PathVariable String postId) {
+        blogService.deleteBlog(postId);
     }
 
-    @Operation(summary = "Delete all blogs by User")
+    @Operation(summary = "Delete all blogs by User ID")
     @DeleteMapping("/deleteAllBlogsByUser/{userId}")
-    public void deleteAllBlogsByUser(@PathVariable String userId){
-        blogRepository.deleteBlogsByUserId(userId);
+    public void deleteAllBlogsByUser(@PathVariable String userId) {
+        blogService.deleteAllBlogsByUser(userId);
     }
 
-    @PutMapping("/{postId}")
+    @Operation(summary = "Update blog")
+    @PutMapping("updateBlog/{postId}")
     public Blog updateBlog(@PathVariable String postId, @RequestBody Blog updatedBlog) {
-        Blog existingBlog = blogRepository.findById(postId)
-                .orElseThrow(() -> new RuntimeException("Blog not found with ID: " + postId));
-
-        existingBlog.setTitle(updatedBlog.getTitle());
-        existingBlog.setContent(updatedBlog.getContent());
-        existingBlog.setLastUpdated(LocalDateTime.now());
-
-        return blogRepository.save(existingBlog);
+        return blogService.updateBlog(postId, updatedBlog);
     }
-
 }
