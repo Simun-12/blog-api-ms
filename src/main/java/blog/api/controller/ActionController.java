@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Action API", description = "Operations related to upvote/downvote")
 @RestController
-@RequestMapping
+@RequestMapping("/api/actions")
 public class ActionController {
     private final ActionRepository actionRepository;
 
@@ -17,7 +17,7 @@ public class ActionController {
     }
 
     @Operation(summary = "set Action")
-    @PostMapping
+    @PostMapping("/setAction")
     public Action setAction(@RequestBody Action action){
         return actionRepository.save(action);
     }

@@ -18,14 +18,37 @@ public class UserController {
     }
 
     @Operation(summary = "Get all users")
-    @GetMapping
+    @GetMapping("/getAlLUsers")
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
     @Operation(summary = "Create User")
-    @PostMapping
+    @PostMapping("/createUser")
     public User createUser(@RequestBody User user) {
         return userRepository.save(user);
     }
+
+    @Operation(summary = "Delete User by Id")
+    @DeleteMapping("/deleteUser/{userId}")
+    public void deleteUser(@PathVariable String userId){
+        userRepository.deleteById(userId);
+    }
+
+    @Operation(summary = "Update user profile")
+    @PutMapping("/updateUser/{userId}")
+    public User updateUser(@PathVariable String userId, @RequestBody User updatedUser) {
+        return userRepository.findById(userId)
+                .map(user -> {
+                    user.setUserName(updatedUser.getUserName());
+                    user.setFullName(updatedUser.getFullName());
+                    user.setEmail(updatedUser.getEmail());
+                    user.setBio(updatedUser.getBio());
+                    user.setDob(updatedUser.getDob());
+                    return userRepository.save(user);
+                })
+                .orElseThrow(() -> new RuntimeException("User not found with ID " + userId));
+    }
 }
+
+
