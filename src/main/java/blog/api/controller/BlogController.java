@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Tag(name = "Blog API", description = "Operations related to blog" )
@@ -48,6 +49,18 @@ public class BlogController {
     @DeleteMapping("/deleteAllBlogsByUser/{userId}")
     public void deleteAllBlogsByUser(@PathVariable String userId){
         blogRepository.deleteBlogsByUserId(userId);
+    }
+
+    @PutMapping("/{postId}")
+    public Blog updateBlog(@PathVariable String postId, @RequestBody Blog updatedBlog) {
+        Blog existingBlog = blogRepository.findById(postId)
+                .orElseThrow(() -> new RuntimeException("Blog not found with ID: " + postId));
+
+        existingBlog.setTitle(updatedBlog.getTitle());
+        existingBlog.setContent(updatedBlog.getContent());
+        existingBlog.setLastUpdated(LocalDateTime.now());
+
+        return blogRepository.save(existingBlog);
     }
 
 }

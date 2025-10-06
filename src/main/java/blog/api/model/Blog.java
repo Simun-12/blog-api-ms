@@ -13,10 +13,11 @@ import java.time.LocalDateTime;
 public class Blog {
     @Id
     private String postId;
-    private String Title;
+    private String title;
     private String content;
     private String userId;
-    private LocalDateTime timestamp;
+    private LocalDateTime dateOfCreation;
+    private LocalDateTime lastUpdated;
     private int totalUpvote;
     private int totalDownvote;
 }
